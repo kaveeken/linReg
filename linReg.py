@@ -92,12 +92,20 @@ def linReg(x,y,tol,n=800):
 
 xx = np.linspace(0,100,100)
 delta = np.random.uniform(-10,10,xx.size)
-yy = 0.4 * xx + 3 + delta
+yy = 0.1 * xx **2 + 0.4 * xx + 3 + delta
 
 success, vector = linReg(xx,yy,tol=5)
 print(success,vector)
 yyy =  vector[0] * xx + vector[1]
+num = np.sum((xx - xx.mean()) * (yy - yy.mean()))
+den = np.sum((xx - xx.mean()) ** 2)
+aEst = num / den
+bEst = yy.mean() - aEst * xx.mean()
+yyyy = aEst * xx + bEst
+ab = nelMeadInit(aEst,bEst)
+print(aEst,bEst)
 plt.plot(xx,yy,label="\'data\'")
 plt.plot(xx,yyy,label="fit")
+plt.plot(xx,yyyy,label="initial guess")
 plt.legend()
 plt.savefig("test.png")
