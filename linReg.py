@@ -92,7 +92,7 @@ def linReg(x,y,tol,n=800):
 
 xx = np.linspace(0,100,100)
 delta = np.random.uniform(-10,10,xx.size)
-yy = 0.1 * xx **2 + 0.4 * xx + 3 + delta
+yy = 10 ** xx + 3 + delta
 
 success, vector = linReg(xx,yy,tol=5)
 print(success,vector)
