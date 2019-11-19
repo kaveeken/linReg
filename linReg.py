@@ -78,11 +78,15 @@ def nelMead(x,y,ab,tol,i=0,n=800):
     else:
         print("shrinked")
         best = abCu[np.argmin(err)]
-        second = abCu[np.argmax(err)]
-        abSh = np.append(best, \
-                         best + sigma * (second - best),\
-                         best+ sigma * (ab[excl] - best),\
-                         axis = 0)
+        second = abCu[np.argmax(abCu)]
+        abShlst = [best,\
+                   best + sigma * (second - best),\
+                   best + sigma * (ab[excl] - best)]
+        abSh = np.asarray(abShlst)
+#        abSh = np.append(best, \
+#                         best + sigma * (second - best),\
+#                         best + sigma * (ab[excl] - best),\
+#                         axis = 0)
         return nelMead(x,y,abSh,tol=tol,i=i,n=n)
 
 def linReg(x,y,tol,n=800):
