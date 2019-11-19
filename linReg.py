@@ -19,9 +19,10 @@ def objective(x,y,a,b):
 
 def nelMead(x,y,ab,tol,i=0,n=800):
     i += 1
-#    print(i)
-    alpha = 1
-    gamma = 2
+    if i % 100 == 0:
+        print(i)
+    alpha = 5
+    gamma = 8
     rho = 0.5
     sigma = 0.5
     err = []
@@ -54,22 +55,28 @@ def nelMead(x,y,ab,tol,i=0,n=800):
     #print(np.append(abCu,[abRf],axis=0))
     # does this work?
     if  erR > max(errC):
+        print("reflected")
         return nelMead(x,y,np.append(abCu,[abRf],axis=0),tol=tol,i=i,n=n)
 
     elif erR < min(errC):
         # expansion
         abEx = coid + gamma * (abRf - coid)
         if objective(x,y,abEx[0],abEx[1]) < erR:
+            print("expanded")
             return nelMead(x,y,np.append(abCu,[abEx],axis=0),tol=tol,i=i,n=n)
-        else: return nelMead(x,y,np.append(abCu,[abRf],axis=0),tol=tol,i=i,n=n)
+        else:
+            print("reflected")
+            return nelMead(x,y,np.append(abCu,[abRf],axis=0),tol=tol,i=i,n=n)
 
     elif erR >= max(errC):
         # contraction
         abCo = coid + rho * (ab[excl] - coid)
         if objective(x,y,abCo[0],abCo[1]) < max(err):
+            print("contracted")
             return nelMead(x,y,np.append(abCu,[abCo],axis=0),tol=tol,i=i,n=n)
 
     else:
+        print("shrinked")
         best = abCu[np.argmin(err)]
         second = abCu[np.argmax(err)]
         abSh = np.append(best, \
@@ -86,13 +93,13 @@ def linReg(x,y,tol,n=800):
     den = np.sum((x - x.mean()) ** 2)
     aEst = num / den
     bEst = y.mean() - aEst * x.mean()
-    ab = nelMeadInit(aEst,bEst)
+    ab = nelMeadInit(0.9 * aEst, 0.8 * bEst)
     success, vector = nelMead(x,y,ab,tol=tol)
     return success, vector
 
 xx = np.linspace(0,100,100)
 delta = np.random.uniform(-10,10,xx.size)
-yy = 10 ** xx + 3 + delta
+yy = 4 * xx + 3 + delta
 
 success, vector = linReg(xx,yy,tol=5)
 print(success,vector)
@@ -104,6 +111,7 @@ bEst = yy.mean() - aEst * xx.mean()
 yyyy = aEst * xx + bEst
 ab = nelMeadInit(aEst,bEst)
 print(aEst,bEst)
+print('obj',objective(xx,yy,aEst,bEst))
 plt.plot(xx,yy,label="\'data\'")
 plt.plot(xx,yyy,label="fit")
 plt.plot(xx,yyyy,label="initial guess")
