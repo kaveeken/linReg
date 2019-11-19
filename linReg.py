@@ -21,8 +21,8 @@ def nelMead(x,y,ab,tol,i=0,n=800):
     i += 1
     if i % 100 == 0:
         print(i)
-    alpha = 5
-    gamma = 8
+    alpha = 0.6
+    gamma = 1.2
     rho = 0.5
     sigma = 0.5
     err = []
@@ -37,9 +37,11 @@ def nelMead(x,y,ab,tol,i=0,n=800):
     # success termination
     # failure termination
     if i >= n:
+        print('fail')
         print(err)
         return 1, ab[np.argmin(err)]
     if min(err) < tol:
+        print('success')
         return 0, ab[np.argmin(err)]
     excl = np.argmax(err)
     abCu = np.asarray([l for i, l in enumerate(ab) if i!=excl])
@@ -77,8 +79,8 @@ def nelMead(x,y,ab,tol,i=0,n=800):
 
     else:
         print("shrinked")
-        best = abCu[np.argmin(err)]
-        second = abCu[np.argmax(abCu)]
+        best = abCu[np.argmin(errC)]
+        second = abCu[np.argmax(errC)]
         abShlst = [best,\
                    best + sigma * (second - best),\
                    best + sigma * (ab[excl] - best)]
@@ -106,7 +108,7 @@ delta = np.random.uniform(-10,10,xx.size)
 yy = 4 * xx + 3 + delta
 
 success, vector = linReg(xx,yy,tol=5)
-print(success,vector)
+print(success,vector,objective(xx,yy,vector[0],vector[1]))
 yyy =  vector[0] * xx + vector[1]
 num = np.sum((xx - xx.mean()) * (yy - yy.mean()))
 den = np.sum((xx - xx.mean()) ** 2)
@@ -114,6 +116,8 @@ aEst = num / den
 bEst = yy.mean() - aEst * xx.mean()
 yyyy = aEst * xx + bEst
 ab = nelMeadInit(aEst,bEst)
+print("shifted initial",aEst*0.9,bEst*0.8)
+print('obj',objective(xx,yy,aEst*0.9,bEst*0.8))
 print(aEst,bEst)
 print('obj',objective(xx,yy,aEst,bEst))
 plt.plot(xx,yy,label="\'data\'")
