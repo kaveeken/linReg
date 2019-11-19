@@ -1,5 +1,5 @@
 import numpy as np
-import math
+from matplotlib import pyplot as plt
 
 def nelMeadInit(a,b):
     # xj = x0 + hj*ej
@@ -17,48 +17,66 @@ def objective(x,y,a,b):
     msd = np.sum(np.power(fx - y,2)) / len(x)
     return msd ** 0.5
 
-def nelMeadStep(x,y,ab,tol,i=0,n=800):
+def nelMead(x,y,ab,tol,i=0,n=800):
     i += 1
-    if i >= n:
-        return 1, ab[np.argmin(err)]
+#    print(i)
     alpha = 1
     gamma = 2
     rho = 0.5
     sigma = 0.5
     err = []
-    for entry in ab:
-        err.append(objective(x,y,entry[0],entry[1]))
+    #print(ab[0])
+    #print('wut')
+    err.append(objective(x,y,ab[0,0],ab[0,1]))
+    err.append(objective(x,y,ab[1,0],ab[1,1]))
+    err.append(objective(x,y,ab[2,0],ab[2,1]))
+    #for entry in ab:
+    #    print(entry)
+    #    err.append(objective(x,y,entry[0],entry[1]))
+    # success termination
+    # failure termination
+    if i >= n:
+        print(err)
+        return 1, ab[np.argmin(err)]
     if min(err) < tol:
-        # termination
         return 0, ab[np.argmin(err)]
     excl = np.argmax(err)
     abCu = np.asarray([l for i, l in enumerate(ab) if i!=excl])
     errC = [l for i, l in enumerate(err) if i!=excl]
     # for 2D, centroid:
-    coid = (abN[0] + abCu[1]) / 2
+    coid = (abCu[0] + abCu[1]) / 2
 
     # reflection:
     abRf = coid + alpha * (coid - ab[excl])
     erR = objective(x,y,abRf[0],abRf[1])
+    #print(abCu[:])
+    #jprint(abRf)
+    #print(np.append(abCu,[abRf],axis=0))
     # does this work?
     if  erR > max(errC):
-        return nelMeadStep(x,y,np.append(abCu,abRf))
+        return nelMead(x,y,np.append(abCu,[abRf],axis=0),tol=tol,i=i,n=n)
 
     elif erR < min(errC):
         # expansion
         abEx = coid + gamma * (abRf - coid)
         if objective(x,y,abEx[0],abEx[1]) < erR:
-            return nelMeadStep(x,y,np.append(abCu,abEx))
-        else: return nelMeadStep(x,y,np.append(abCu,abRf))
+            return nelMead(x,y,np.append(abCu,[abEx],axis=0),tol=tol,i=i,n=n)
+        else: return nelMead(x,y,np.append(abCu,[abRf],axis=0),tol=tol,i=i,n=n)
 
     elif erR >= max(errC):
         # contraction
         abCo = coid + rho * (ab[excl] - coid)
         if objective(x,y,abCo[0],abCo[1]) < max(err):
-            return nelMeadStep(x,y,np.append(abCu,abCo))
+            return nelMead(x,y,np.append(abCu,[abCo],axis=0),tol=tol,i=i,n=n)
 
-        else:
-
+    else:
+        best = abCu[np.argmin(err)]
+        second = abCu[np.argmax(err)]
+        abSh = np.append(best, \
+                         best + sigma * (second - best),\
+                         best+ sigma * (ab[excl] - best),\
+                         axis = 0)
+        return nelMead(x,y,abSh,tol=tol,i=i,n=n)
 
 def linReg(x,y,tol,n=800):
     # ax + b
@@ -67,5 +85,19 @@ def linReg(x,y,tol,n=800):
     num = np.sum((x - x.mean()) * (y - y.mean()))
     den = np.sum((x - x.mean()) ** 2)
     aEst = num / den
-    bEst = y.mean() - a1 * x.mean()
+    bEst = y.mean() - aEst * x.mean()
     ab = nelMeadInit(aEst,bEst)
+    success, vector = nelMead(x,y,ab,tol=tol)
+    return success, vector
+
+xx = np.linspace(0,100,100)
+delta = np.random.uniform(-10,10,xx.size)
+yy = 0.4 * xx + 3 + delta
+
+success, vector = linReg(xx,yy,tol=5)
+print(success,vector)
+yyy =  vector[0] * xx + vector[1]
+plt.plot(xx,yy,label="\'data\'")
+plt.plot(xx,yyy,label="fit")
+plt.legend()
+plt.savefig("test.png")
