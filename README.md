@@ -4,9 +4,7 @@ so I need something I can tinker with.
 
 First makes an initial guess, 
 then minimizes RMSD according to Nelder-Mead 
-down to a given tolerance (or until convergence) in up to a given number of steps.
-Should probably just go until convergence
-and not test against a tolerance at all.
+until convergence in up to a given number of steps.
 
 I might want to use least squares over RMSD.
 The project that needs this validates fits by RMSD anyway,
