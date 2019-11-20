@@ -42,12 +42,12 @@ def nelMead(x,y,ab,i=0,n=800):
        math.isclose(ab[0,0],ab[2,0], abs_tol=0.000001) and \
        math.isclose(ab[0,1],ab[1,1], abs_tol=0.000001) and \
        math.isclose(ab[0,1],ab[2,1], abs_tol=0.000001):
-        print(ab)
+#        print(ab)
         print('convergence')
         return 0, ab[0]
     if i >= n:
         print('fail')
-        print(err)
+#        print(err)
         return 1, ab[np.argmin(err)]
     excl = np.argmax(err)
     abCu = np.asarray([l for i, l in enumerate(ab) if i!=excl])
@@ -63,28 +63,28 @@ def nelMead(x,y,ab,i=0,n=800):
     #print(np.append(abCu,[abRf],axis=0))
     # does this work?
     if  erR > max(errC):
-        print("reflected")
+ #       print("reflected")
         return nelMead(x,y,np.append(abCu,[abRf],axis=0),i=i,n=n)
 
     elif erR < min(errC):
         # expansion
         abEx = coid + gamma * (abRf - coid)
         if objective(x,y,abEx[0],abEx[1]) < erR:
-            print("expanded")
+ #           print("expanded")
             return nelMead(x,y,np.append(abCu,[abEx],axis=0),i=i,n=n)
         else:
-            print("reflected")
+ #           print("reflected")
             return nelMead(x,y,np.append(abCu,[abRf],axis=0),i=i,n=n)
 
     elif erR >= max(errC):
         # contraction
         abCo = coid + rho * (ab[excl] - coid)
         if objective(x,y,abCo[0],abCo[1]) < max(err):
-            print("contracted")
+ #           print("contracted")
             return nelMead(x,y,np.append(abCu,[abCo],axis=0),i=i,n=n)
 
     else:
-        print("shrinked")
+ #       print("shrinked")
         best = abCu[np.argmin(errC)]
         second = abCu[np.argmax(errC)]
         abShlst = [best,\
