@@ -1,15 +1,16 @@
 import numpy as np
 from matplotlib import pyplot as plt
+import math
 
 def nelMeadInit(a,b):
     # xj = x0 + hj*ej
     # ej unit vector of j-th coord axis, hj step size
     # x0 non-zero: hj = 0.05, x0 == 0: hj = 0.00025
     ab = [[a,b]]
-    if a == 0: ab.append([a * 0.00025, b])
-    else: ab.append([a * 0.05, b])
-    if b == 0: ab.append([a, b * 0.00025])
-    else: ab.append([a, b * 0.05])
+    if a == 0: ab.append([a + a * 0.025, b])
+    else: ab.append([a + a * 1, b])
+    if b == 0: ab.append([a, b + b * 0.025])
+    else: ab.append([a, b + b * 1])
     return np.asarray(ab)
 
 def objective(x,y,a,b):
@@ -18,6 +19,7 @@ def objective(x,y,a,b):
     return msd ** 0.5
 
 def nelMead(x,y,ab,tol,i=0,n=800):
+#    print(ab,type(ab))
     i += 1
     if i % 100 == 0:
         print(i)
@@ -36,13 +38,20 @@ def nelMead(x,y,ab,tol,i=0,n=800):
     #    err.append(objective(x,y,entry[0],entry[1]))
     # success termination
     # failure termination
+    if math.isclose(ab[0,0],ab[1,0], abs_tol=0.000001) and \
+       math.isclose(ab[0,0],ab[2,0], abs_tol=0.000001) and \
+       math.isclose(ab[0,1],ab[1,1], abs_tol=0.000001) and \
+       math.isclose(ab[0,1],ab[2,1], abs_tol=0.000001):
+        print(ab)
+        print('local min')
+        return True, ab[0]
+    if min(err) < tol:
+        print('success')
+        return False, ab[np.argmin(err)]
     if i >= n:
         print('fail')
         print(err)
-        return 1, ab[np.argmin(err)]
-    if min(err) < tol:
-        print('success')
-        return 0, ab[np.argmin(err)]
+        return True, ab[np.argmin(err)]
     excl = np.argmax(err)
     abCu = np.asarray([l for i, l in enumerate(ab) if i!=excl])
     errC = [l for i, l in enumerate(err) if i!=excl]
@@ -85,6 +94,7 @@ def nelMead(x,y,ab,tol,i=0,n=800):
                    best + sigma * (second - best),\
                    best + sigma * (ab[excl] - best)]
         abSh = np.asarray(abShlst)
+        #print(abSh)
 #        abSh = np.append(best, \
 #                         best + sigma * (second - best),\
 #                         best + sigma * (ab[excl] - best),\
@@ -122,6 +132,6 @@ print(aEst,bEst)
 print('obj',objective(xx,yy,aEst,bEst))
 plt.plot(xx,yy,label="\'data\'")
 plt.plot(xx,yyy,label="fit")
-plt.plot(xx,yyyy,label="initial guess")
+plt.plot(xx,yyyy,label="initial guess",linestyle='dashed')
 plt.legend()
 plt.savefig("test.png")
