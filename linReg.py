@@ -21,8 +21,6 @@ def objective(x,y,a,b):
 def nelMead(x,y,ab,i=0,n=800):
 #    print(ab,type(ab))
     i += 1
-    if i % 100 == 0:
-        print(i)
     alpha = 0.6
     gamma = 1.2
     rho = 0.5
@@ -43,10 +41,10 @@ def nelMead(x,y,ab,i=0,n=800):
        math.isclose(ab[0,1],ab[1,1], abs_tol=0.000001) and \
        math.isclose(ab[0,1],ab[2,1], abs_tol=0.000001):
 #        print(ab)
-        print('convergence')
+#        print('convergence')
         return err[0], ab[0]
     if i >= n:
-        print('fail')
+#        print('fail')
 #        print(err)
         return min(err), ab[np.argmin(err)]
     excl = np.argmax(err)
@@ -110,29 +108,29 @@ def linReg(x,y,n=800):
     error, vector = nelMead(x,y,ab)
     return error, vector
 
-xx = np.linspace(0,100,100)
-delta = np.random.uniform(-10,10,xx.size)
-yy = 4 * xx + 3 + delta
-
-success, vector = linReg(xx,yy)
-print()
-print(success,vector,objective(xx,yy,vector[0],vector[1]))
-yFit =  vector[0] * xx + vector[1]
-num = np.sum((xx - xx.mean()) * (yy - yy.mean()))
-den = np.sum((xx - xx.mean()) ** 2)
-aEst = num / den
-bEst = yy.mean() - aEst * xx.mean()
-yEst = aEst * xx + bEst
-ab = nelMeadInit(aEst,bEst)
-yPerf = 4 * xx + 3
-print('initial estimate',aEst,bEst)
-print('obj',objective(xx,yy,aEst,bEst))
-print('shifted estimate',aEst*0.9,bEst*0.8)
-print('obj',objective(xx,yy,aEst*0.9,bEst*0.8))
-print('undisturbed function',4,3)
-print('obj',objective(xx,yy,4,3))
-plt.plot(xx,yy,label="\'data\'")
-plt.plot(xx,yFit,label="fit")
-plt.plot(xx,yEst,label="initial guess",linestyle='dashed')
-plt.legend()
-plt.savefig("test.png")
+#xx = np.linspace(0,100,100)
+#delta = np.random.uniform(-10,10,xx.size)
+#yy = 4 * xx + 3 + delta
+#
+#success, vector = linReg(xx,yy)
+#print()
+#print(success,vector,objective(xx,yy,vector[0],vector[1]))
+#yFit =  vector[0] * xx + vector[1]
+#num = np.sum((xx - xx.mean()) * (yy - yy.mean()))
+#den = np.sum((xx - xx.mean()) ** 2)
+#aEst = num / den
+#bEst = yy.mean() - aEst * xx.mean()
+#yEst = aEst * xx + bEst
+#ab = nelMeadInit(aEst,bEst)
+#yPerf = 4 * xx + 3
+#print('initial estimate',aEst,bEst)
+#print('obj',objective(xx,yy,aEst,bEst))
+#print('shifted estimate',aEst*0.9,bEst*0.8)
+#print('obj',objective(xx,yy,aEst*0.9,bEst*0.8))
+#print('undisturbed function',4,3)
+#print('obj',objective(xx,yy,4,3))
+#plt.plot(xx,yy,label="\'data\'")
+#plt.plot(xx,yFit,label="fit")
+#plt.plot(xx,yEst,label="initial guess",linestyle='dashed')
+#plt.legend()
+#plt.savefig("test.png")
