@@ -106,7 +106,7 @@ def linReg(x,y,n=800):
     den = np.sum((x - x.mean()) ** 2)
     aEst = num / den
     bEst = y.mean() - aEst * x.mean()
-    ab = nelMeadInit(0.9 * aEst, 0.8 * bEst)
+#    ab = nelMeadInit(0.9 * aEst, 0.8 * bEst)
     success, vector = nelMead(x,y,ab)
     return success, vector
 
