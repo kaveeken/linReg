@@ -44,11 +44,11 @@ def nelMead(x,y,ab,i=0,n=800):
        math.isclose(ab[0,1],ab[2,1], abs_tol=0.000001):
 #        print(ab)
         print('convergence')
-        return 0, ab[0]
+        return err[0], ab[0]
     if i >= n:
         print('fail')
 #        print(err)
-        return 1, ab[np.argmin(err)]
+        return min(err), ab[np.argmin(err)]
     excl = np.argmax(err)
     abCu = np.asarray([l for i, l in enumerate(ab) if i!=excl])
     errC = [l for i, l in enumerate(err) if i!=excl]
@@ -106,9 +106,9 @@ def linReg(x,y,n=800):
     den = np.sum((x - x.mean()) ** 2)
     aEst = num / den
     bEst = y.mean() - aEst * x.mean()
-#    ab = nelMeadInit(0.9 * aEst, 0.8 * bEst)
-    success, vector = nelMead(x,y,ab)
-    return success, vector
+    ab = nelMeadInit(aEst,bEst)
+    error, vector = nelMead(x,y,ab)
+    return error, vector
 
 xx = np.linspace(0,100,100)
 delta = np.random.uniform(-10,10,xx.size)
