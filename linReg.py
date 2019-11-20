@@ -18,7 +18,7 @@ def objective(x,y,a,b):
     msd = np.sum(np.power(fx - y,2)) / len(x)
     return msd ** 0.5
 
-def nelMead(x,y,ab,tol,i=0,n=800):
+def nelMead(x,y,ab,i=0,n=800):
 #    print(ab,type(ab))
     i += 1
     if i % 100 == 0:
@@ -43,15 +43,12 @@ def nelMead(x,y,ab,tol,i=0,n=800):
        math.isclose(ab[0,1],ab[1,1], abs_tol=0.000001) and \
        math.isclose(ab[0,1],ab[2,1], abs_tol=0.000001):
         print(ab)
-        print('local min')
-        return True, ab[0]
-    if min(err) < tol:
-        print('success')
-        return False, ab[np.argmin(err)]
+        print('convergence')
+        return 0, ab[0]
     if i >= n:
         print('fail')
         print(err)
-        return True, ab[np.argmin(err)]
+        return 1, ab[np.argmin(err)]
     excl = np.argmax(err)
     abCu = np.asarray([l for i, l in enumerate(ab) if i!=excl])
     errC = [l for i, l in enumerate(err) if i!=excl]
@@ -67,24 +64,24 @@ def nelMead(x,y,ab,tol,i=0,n=800):
     # does this work?
     if  erR > max(errC):
         print("reflected")
-        return nelMead(x,y,np.append(abCu,[abRf],axis=0),tol=tol,i=i,n=n)
+        return nelMead(x,y,np.append(abCu,[abRf],axis=0),i=i,n=n)
 
     elif erR < min(errC):
         # expansion
         abEx = coid + gamma * (abRf - coid)
         if objective(x,y,abEx[0],abEx[1]) < erR:
             print("expanded")
-            return nelMead(x,y,np.append(abCu,[abEx],axis=0),tol=tol,i=i,n=n)
+            return nelMead(x,y,np.append(abCu,[abEx],axis=0),i=i,n=n)
         else:
             print("reflected")
-            return nelMead(x,y,np.append(abCu,[abRf],axis=0),tol=tol,i=i,n=n)
+            return nelMead(x,y,np.append(abCu,[abRf],axis=0),i=i,n=n)
 
     elif erR >= max(errC):
         # contraction
         abCo = coid + rho * (ab[excl] - coid)
         if objective(x,y,abCo[0],abCo[1]) < max(err):
             print("contracted")
-            return nelMead(x,y,np.append(abCu,[abCo],axis=0),tol=tol,i=i,n=n)
+            return nelMead(x,y,np.append(abCu,[abCo],axis=0),i=i,n=n)
 
     else:
         print("shrinked")
@@ -99,9 +96,9 @@ def nelMead(x,y,ab,tol,i=0,n=800):
 #                         best + sigma * (second - best),\
 #                         best + sigma * (ab[excl] - best),\
 #                         axis = 0)
-        return nelMead(x,y,abSh,tol=tol,i=i,n=n)
+        return nelMead(x,y,abSh,i=i,n=n)
 
-def linReg(x,y,tol,n=800):
+def linReg(x,y,n=800):
     # ax + b
     # first estimate
     # a1 = corr(x,y) * stdev(y) / stdev(x)
@@ -110,14 +107,14 @@ def linReg(x,y,tol,n=800):
     aEst = num / den
     bEst = y.mean() - aEst * x.mean()
     ab = nelMeadInit(0.9 * aEst, 0.8 * bEst)
-    success, vector = nelMead(x,y,ab,tol=tol)
+    success, vector = nelMead(x,y,ab)
     return success, vector
 
 xx = np.linspace(0,100,100)
 delta = np.random.uniform(-10,10,xx.size)
 yy = 4 * xx + 3 + delta
 
-success, vector = linReg(xx,yy,tol=5)
+success, vector = linReg(xx,yy)
 print()
 print(success,vector,objective(xx,yy,vector[0],vector[1]))
 yFit =  vector[0] * xx + vector[1]
