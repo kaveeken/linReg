@@ -118,20 +118,24 @@ delta = np.random.uniform(-10,10,xx.size)
 yy = 4 * xx + 3 + delta
 
 success, vector = linReg(xx,yy,tol=5)
+print()
 print(success,vector,objective(xx,yy,vector[0],vector[1]))
-yyy =  vector[0] * xx + vector[1]
+yFit =  vector[0] * xx + vector[1]
 num = np.sum((xx - xx.mean()) * (yy - yy.mean()))
 den = np.sum((xx - xx.mean()) ** 2)
 aEst = num / den
 bEst = yy.mean() - aEst * xx.mean()
-yyyy = aEst * xx + bEst
+yEst = aEst * xx + bEst
 ab = nelMeadInit(aEst,bEst)
-print("shifted initial",aEst*0.9,bEst*0.8)
-print('obj',objective(xx,yy,aEst*0.9,bEst*0.8))
-print(aEst,bEst)
+yPerf = 4 * xx + 3
+print('initial estimate',aEst,bEst)
 print('obj',objective(xx,yy,aEst,bEst))
+print('shifted estimate',aEst*0.9,bEst*0.8)
+print('obj',objective(xx,yy,aEst*0.9,bEst*0.8))
+print('undisturbed function',4,3)
+print('obj',objective(xx,yy,4,3))
 plt.plot(xx,yy,label="\'data\'")
-plt.plot(xx,yyy,label="fit")
-plt.plot(xx,yyyy,label="initial guess",linestyle='dashed')
+plt.plot(xx,yFit,label="fit")
+plt.plot(xx,yEst,label="initial guess",linestyle='dashed')
 plt.legend()
 plt.savefig("test.png")
