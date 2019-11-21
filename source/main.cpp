@@ -1,114 +1,43 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <tuple>
 
-std::vector<std::vector<double> > nelMeadInit(std::vector<double> guess)
-{
-  std::vector<std::vector<double> > X(3);
-  double alpha = 0.05;
-  double beta = 0.05;
-  X[0] = guess;
-  if(guess[0] == 0)
-    alpha = 0.0025;
-  std::vector<double> Xa = {guess[0] + alpha * guess[0], guess[1]};
-  if(guess[1] == 0)
-    beta = 0.0025;
-  std::vector<double> Xb = {guess[0], guess[1] + beta * guess[1]};
-  X[1] = Xa;
-  X[2] = Xb;
-  return X;
-}
+#include "header.h"
 
-double objective(std::vector<double> t, std::vector<double> y, std::vector<double> Xi)
+std::vector<double> guess(std::vector<double> t, std::vector<double> y)
 {
-  std::vector<double> fx(x.size());
-  double msd
-  for(int i = 0; i < x.size(); i++){
-    fx[i] = Xi[0] * t[i] + Xi[1]; // don't need a vector even
-    msd += (fx[i] - y[i]) * (fx[i] - y[i]);
+  double tmean = vecMean(t);
+  double ymean = vecMean(y);
+  double numsum = 0.0;
+  double densum = 0.0;
+  for(int i = 0; i < t.size();i++){
+    numsum += (t[i] - tmean) * (y[i] - ymean);
+    densum += (t[i] - tmean) * (t[i] - tmean);
   }
-  return std::sqrt(msd);
+  std::vector<double> guess = {numsum / densum, ymean - numsum/densum * tmean};
+  return guess;
 }
 
-int indexSmallest(std::vector<double> vec)
+std::tuple<double,std::vector<double> > linReg(std::vector<double> t, std::vector<double> y)
 {
-  int index = 0;
-  for(int i = 1; i < vec.size(); i++)
-    {
-      if(vec[i] < vec[index])
-        index = i;
-    }
-  return index;
+  std::vector<double> guss = guess(t,y);
+  std::vector<std::vector<double> > X = nelMeadInit(guss);
+  double rmsd = 0;
+  std::vector<double> fit(2);
+  std::tie(rmsd,fit) = nelMead(X,t,y,0);
+  std::cout << fit[0] << ' ' << fit[1];
+  return std::make_tuple(rmsd,fit);
 }
 
-int indexLargest(std::vector<double> vec)
+int main()
 {
-  int index = 0;
-  for(int i = 1; i < vec.size(); i++)
-    {
-      if(vec[i] > vec[index])
-        index = i;
-    }
-  return index;
-}
-
-std::vector<double> sclMult(std::vector<double> vec, double scl)
-{
-  for(int i; i < vec.size(); i++)
-    vec[i] *= scl;
-  return vec;
-}
-std::vector<double> sclAdd(std::vector<double> vec, double scl)
-{
-  for(int i; i < vec.size(); i++)
-    vec[i] += scl;
-  return vec;
-}
-std::vector<double> vecAdd(std::vector<double> vec1, std::vector<double> vec2)
-{
-  for(int i; i < vec.size(); i++)
-    vec1[i] += vec2[i];
-  return vec1;
-}
-std::vector<double> vecSub(std::vector<double> vec1, std::vector<double> vec2)
-{
-  for(int i; i < vec.size(); i++)
-    vec1[i] -= vec2[i];
-  return vec1;
-}
-
-std::tuple<std::vector<std::vector<double> >,
-           std::vector<double> > sort(std::vector<std::vector<double> > X,
-                                         std::vector<double> err)
-{
-  std::vector<double> sortErr(3);
-  std::vector<std::vector<double> > sortX(3);
-  int small = indexSmallest(err), large = indexLargest(err)
-  int middle = fabs(small + large - 3);
-  sortErr[0] = err[small];
-  sortErr[1] = err[middle];
-  sortErr[2] = err[large];
-  sortX[0] = X[small];
-  sortX[1] = X[middle];
-  sortX[2] = X[large];
-  return std::make_tuple(sortX,sortErr);
-}
-
-std::tuple<double, std::vector<double> >  nelMead(std::vector<std::vector<double> > X, int i = 0)
-{
-  double alpha = 0.5, gamma = 1.0, rho = 0.5, sigma = 0.5;
-  i++;
-  std::vector<double> err(3);
-  for(int j = 0; j < 3; j++)
-    err[j] = objective(t,y,X[j]);
-  std::vector<double> sortErr(3);
-  std::vector<std::vector<double> > sortX(3);
-  std::tie(sortX,sortErr) = sort(X,err)
-  if(fabs(err[0] - err[1]) < err[0] * 0.0001 && fabs(err[0] - err[1]) < err[0 * 0.0001])
-    return std::make_tuple(sortErr[0],sortX[0]);
-  if(i >= 800)
-    return std::make_tuple(sortErr[0],sortX[0]);
-
-  std::vector<double> coid = sclMult(vecAdd(sortX[0],sortX[1]), 0.5);
-  std::vector<double> refl = vecAdd(coid, sclMult(vecSub(coid, sortX[2]),alpha))
+  std::vector<double> t = {0,1,2,3,4,5,6,7,8,9};
+  std::vector<double> y = {0,2,3,6,7,10,13,15,17,18};
+  double rmsd = 0;
+  std::vector<double> fit;
+  std::tie(rmsd,fit) = linReg(t,y);
+  std::cout <<rmsd;
+  std::cout << rmsd << ' ' << fit[0] << ' ' << fit[1] << std::endl;
+  return 0;
 }
