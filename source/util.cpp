@@ -74,7 +74,6 @@ sort(const std::vector<std::vector<double> > &X, const std::vector<double> &err)
   int small = indexSmallest(err), large = indexLargest(err);
   if(small == large)
     return std::make_tuple(X,err);
-  dot();
   int middle = fabs(small + large - 3);
   //std::cout << small << ' ' << middle <<  ' ' << large << std::endl;
   sortErr[0] = err[small];

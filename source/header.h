@@ -3,6 +3,9 @@
 
 #include <vector>
 #include <tuple>
+#include <fstream>
+
+extern std::ofstream fileStream;
 
 /***** utils *****/
 // smallest/largest value from a vector
@@ -42,3 +45,10 @@ std::vector<double> guess(std::vector<double> t, std::vector<double> y);
 std::tuple<double,std::vector<double> > linReg(std::vector<double> t, std::vector<double> y);
 #endif
 
+/****** file things *****/
+std::vector<double> readClose();
+void fileStream_init(std::ofstream &fileStream, const std::string &name);
+void writeXvg(std::ofstream &fileStream,
+              const std::vector<double> &t,
+              const std::vector<double> &y,
+              const std::vector<double> &fit);

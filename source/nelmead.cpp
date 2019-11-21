@@ -47,11 +47,9 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   //std::cout << n /*<< X.size()*/ << std::endl;
   for(int j = 0; j < 3; j++)
     err[j] = objective(t,y,X[j]);
-  dot();
   std::vector<double> sortErr;
   std::vector<std::vector<double> > sortX;
   std::tie(sortX,sortErr) = sort(X,err);
-  dot();
 
   if(fabs(err[0] - err[1]) < err[0] * 0.0001 && fabs(err[0] - err[1]) < err[0 * 0.0001])
     return std::make_tuple(sortErr[0],sortX[0]);
@@ -60,7 +58,6 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
 
   std::vector<double> coid = sclMult(vecAdd(sortX[0],sortX[1]), 0.5);
   std::vector<double> refl = vecAdd(coid, sclMult(vecSub(coid, sortX[2]),alpha));
-  dot();
   double errRefl = objective(t,y,refl);
   if(errRefl > sortErr[0] && errRefl < sortErr[1]) // reflect
     return nelMead(vecCat(sortX[0],sortX[1],refl),t,y,n);
