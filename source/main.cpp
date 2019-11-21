@@ -26,18 +26,18 @@ std::tuple<double,std::vector<double> > linReg(std::vector<double> t, std::vecto
   double rmsd = 0;
   std::vector<double> fit(2);
   std::tie(rmsd,fit) = nelMead(X,t,y,0);
-  std::cout << fit[0] << ' ' << fit[1];
+  //std::cout << fit[0] << ' ' << fit[1];
   return std::make_tuple(rmsd,fit);
 }
 
 int main()
 {
-  std::vector<double> t = {0,1,2,3,4,5,6,7,8,9};
-  std::vector<double> y = {0,2,3,6,7,10,13,15,17,18};
+  std::vector<double> t = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,20,25,30,40,50};
+  std::vector<double> y = {0,2,3,6,7,10,13,15,17,18,10,20,25,25,30,29,38,52,60,90,100};
   double rmsd = 0;
   std::vector<double> fit;
   std::tie(rmsd,fit) = linReg(t,y);
-  std::cout <<rmsd;
-  std::cout << rmsd << ' ' << fit[0] << ' ' << fit[1] << std::endl;
+  std::cout << std::endl << "rmsd: " << rmsd << '\n'
+            << "slope: " << fit[0] << " intercept: " << fit[1] << std::endl;
   return 0;
 }

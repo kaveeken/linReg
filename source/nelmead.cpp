@@ -44,7 +44,7 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   double alpha = 0.5, gamma = 1.0, rho = 0.5, sigma = 0.5;
   n++;
   std::vector<double> err(3);
-  std::cout << n /*<< X.size()*/ << std::endl;
+  //std::cout << n /*<< X.size()*/ << std::endl;
   for(int j = 0; j < 3; j++)
     err[j] = objective(t,y,X[j]);
   dot();

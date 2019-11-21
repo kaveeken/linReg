@@ -68,7 +68,7 @@ std::vector<std::vector<double> > vecCat(const std::vector<double> &vec1,
 std::tuple<std::vector<std::vector<double> >, std::vector<double> >
 sort(const std::vector<std::vector<double> > &X, const std::vector<double> &err)
 {
-  std::cout << X.size() << ' ' << err.size() << std::endl;
+  //std::cout << X.size() << ' ' << err.size() << std::endl;
   std::vector<double> sortErr(3);
   //std::vector<std::vector<double> > sortX;
   int small = indexSmallest(err), large = indexLargest(err);
@@ -76,7 +76,7 @@ sort(const std::vector<std::vector<double> > &X, const std::vector<double> &err)
     return std::make_tuple(X,err);
   dot();
   int middle = fabs(small + large - 3);
-  std::cout << small << ' ' << middle <<  ' ' << large << std::endl;
+  //std::cout << small << ' ' << middle <<  ' ' << large << std::endl;
   sortErr[0] = err[small];
   sortErr[1] = err[middle];
   sortErr[2] = err[large];
