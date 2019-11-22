@@ -65,4 +65,3 @@ int main()
   std::cout << sumCept / (close.size() - len) << std::endl;
   return 0;
 }
-

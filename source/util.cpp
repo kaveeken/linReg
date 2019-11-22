@@ -2,6 +2,7 @@
 #include <tuple>
 #include <cmath>
 #include <iostream>
+#include <string>
 
 #include "header.h"
 
@@ -103,7 +104,7 @@ double vecSum(const std::vector<double> &vec)
   return sum;
     }
 
-void dot()
+void dot(std::string str)
 {
-  std::cout << '.' << std::endl;
+  std::cout << str << std::endl;
 }

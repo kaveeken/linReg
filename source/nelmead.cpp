@@ -8,14 +8,14 @@
 std::vector<std::vector<double> > nelMeadInit(const std::vector<double> &guess)
 {
   std::vector<std::vector<double> > X(3);
-  double alpha = 0.05;
+  double alpha = 0.05; // 0.05
   double beta = 0.05;
   X[0] = guess;
   if(guess[0] == 0)
-    alpha = 0.0025;
+    alpha = 0.00025; // 0.00025
   std::vector<double> Xa = {guess[0] + alpha * guess[0], guess[1]};
   if(guess[1] == 0)
-    beta = 0.0025;
+    beta = 0.00025; // wait what
   std::vector<double> Xb = {guess[0], guess[1] + beta * guess[1]};
   X[1] = Xa;
   X[2] = Xb;
@@ -50,15 +50,26 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   std::vector<double> sortErr;
   std::vector<std::vector<double> > sortX;
   std::tie(sortX,sortErr) = sort(X,err);
+  dot();
 
-  if(fabs(err[0] - err[1]) < err[0] * 0.0001 && fabs(err[0] - err[1]) < err[0 * 0.0001])
+  if(fabs(X[0][0] - X[1][0]) < X[0][0] * 0.001 &&
+     fabs(X[0][1] - X[1][1]) < X[0][1] * 0.001 &&
+     fabs(X[0][0] - X[2][0]) < X[0][0] * 0.001 &&
+     fabs(X[0][1] - X[2][1]) < X[0][1] * 0.001){
+    // now actually tests convergence
+    std::cout << "nsteps: " << n << std::endl;
     return std::make_tuple(sortErr[0],sortX[0]);
-  if(n >= 800)
+  }
+  dot("a");
+  if(n >= 800){
+    std::cout << "800 steps\n";
     return std::make_tuple(sortErr[0],sortX[0]);
+  }
 
   std::vector<double> coid = sclMult(vecAdd(sortX[0],sortX[1]), 0.5);
   std::vector<double> refl = vecAdd(coid, sclMult(vecSub(coid, sortX[2]),alpha));
   double errRefl = objective(t,y,refl);
+  dot();
   if(errRefl > sortErr[0] && errRefl < sortErr[1]) // reflect
     return nelMead(vecCat(sortX[0],sortX[1],refl),t,y,n);
   else if(errRefl < sortErr[0]){

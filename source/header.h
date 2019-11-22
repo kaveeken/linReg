@@ -4,6 +4,7 @@
 #include <vector>
 #include <tuple>
 #include <fstream>
+#include <string>
 
 extern std::ofstream fileStream;
 
@@ -24,7 +25,7 @@ double vecMean(const std::vector<double> &vec);
 std::tuple<std::vector<std::vector<double> >, std::vector<double> >
   sort(const std::vector<std::vector<double> > &X, const std::vector<double> &err);
 // print a dot
-void dot();
+void dot(std::string str = ".");
 
 /****** Nelder-Mead *****/
 // make an initial simplex from a guess
