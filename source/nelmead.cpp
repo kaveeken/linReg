@@ -50,7 +50,7 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   std::vector<double> sortErr;
   std::vector<std::vector<double> > sortX;
   std::tie(sortX,sortErr) = sort(X,err);
-  dot();
+  //  dot();
 
   if(fabs(X[0][0] - X[1][0]) < X[0][0] * 0.001 &&
      fabs(X[0][1] - X[1][1]) < X[0][1] * 0.001 &&
@@ -60,7 +60,7 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
     std::cout << "nsteps: " << n << std::endl;
     return std::make_tuple(sortErr[0],sortX[0]);
   }
-  dot("a");
+  //  dot("a");
   if(n >= 800){
     std::cout << "800 steps\n";
     return std::make_tuple(sortErr[0],sortX[0]);
@@ -69,10 +69,11 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   std::vector<double> coid = sclMult(vecAdd(sortX[0],sortX[1]), 0.5);
   std::vector<double> refl = vecAdd(coid, sclMult(vecSub(coid, sortX[2]),alpha));
   double errRefl = objective(t,y,refl);
-  dot();
+  //  dot();
   if(errRefl > sortErr[0] && errRefl < sortErr[1]) // reflect
     return nelMead(vecCat(sortX[0],sortX[1],refl),t,y,n);
   else if(errRefl < sortErr[0]){
+    // dot("b");
     std::vector<double> expd = vecAdd(coid,sclMult(vecSub(refl,coid),gamma));
     double errExpd = objective(t,y,expd);
     if(errExpd < errRefl) // expand
@@ -80,13 +81,17 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
     else // reflect
       return nelMead(vecCat(sortX[0],sortX[1],refl),t,y,n);
   } else if(errRefl >= sortErr[2]){ // contract
+    //    dot("c");
     std::vector<double> ctrt = vecAdd(coid, sclMult(vecSub(sortX[2],coid),rho));
+    //    dot("c2");
     double errCtrt = objective(t,y,ctrt);
+    //    std::cout << sortErr[2];
     if(errCtrt < sortErr[2])
       return nelMead(vecCat(sortX[0],sortX[1],ctrt),t,y,n);
-  } else { // shrink
-    std::vector<double> second = vecAdd(sortX[0], sclMult(vecSub(sortX[1], sortX[0]),sigma));
-    std::vector<double> third = vecAdd(sortX[0], sclMult(vecSub(sortX[2], sortX[0]),sigma));
-    return nelMead(vecCat(sortX[0],second,third),t,y,n);
   }
+  // else { // shrink
+  std::vector<double> second = vecAdd(sortX[0], sclMult(vecSub(sortX[1], sortX[0]),sigma));
+  std::vector<double> third = vecAdd(sortX[0], sclMult(vecSub(sortX[2], sortX[0]),sigma));
+  return nelMead(vecCat(sortX[0],second,third),t,y,n);
+  //}
 }
