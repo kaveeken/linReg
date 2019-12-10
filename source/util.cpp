@@ -108,3 +108,17 @@ void dot(std::string str)
 {
   std::cout << str << std::endl;
 }
+
+std::vector<double> topbot(std::vector<double> &vec)
+{
+  double top = vec[0];
+  double bot = vec[0];
+  for(int i = 1; i < vec.size(); ++i){
+    if(vec[i] > top)
+      top = vec[i];
+    if(vec[i] < bot)
+      bot = vec[i];
+  }
+  std::vector<double> topbot = {top,bot};
+  return topbot;
+}

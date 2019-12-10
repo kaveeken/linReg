@@ -24,6 +24,8 @@ double vecMean(const std::vector<double> &vec);
 // sort two vectors of length 3 by the elements in the err vector
 std::tuple<std::vector<std::vector<double> >, std::vector<double> >
   sort(const std::vector<std::vector<double> > &X, const std::vector<double> &err);
+// return maximum and minimum values from vector
+std::vector<double> topbot(std::vector<double> &vec);
 // print a dot
 void dot(std::string str = ".");
 
