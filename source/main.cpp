@@ -25,8 +25,8 @@ int main()
   int len = 100, pos = 0;
   double sumSlope = 0.0, sumCept = 0.0, rmsd = 0.0;
   std::vector<double> fit;
-
-  for(int i = 0; i < 5; ++i){//close.size() - len; ++i){
+  double minErr = 1.0;
+  for(int i = 0; i < /*5; ++i){//*/close.size() - len; ++i){
     double dI = 0.0;
     std::vector<double> t, y, lt, ly;
     //    std::vector<double> yy;
@@ -53,9 +53,10 @@ int main()
     //printVec(y);
     //printVec(yNorm);
     //printVec(tb);
-    if(/*fit[0] > 0*/true) {// and fit[1] > 1)
+    if(fit[0] > 0) {// and fit[1] > 1)
       pos++;
-      if(/*pos % 1000 == 1 // */ true){
+      if(/*pos % 1000 == 1*/rmsd < minErr){
+        minErr = rmsd;
         std::stringstream nameStream;
         nameStream << "fit_" << pos << ".xvg";
         std::cout << nameStream.str() << std::endl;
@@ -66,6 +67,7 @@ int main()
           line.push_back(fit[0] * t[k] + fit[1]);
         }
         fileStream.open(fname);
+        fileStream << "# error: " << rmsd << std::endl;
         writeXvg(fileStream,t,yNorm,line);
         fileStream.close();
       }
