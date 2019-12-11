@@ -30,32 +30,34 @@ int indexLargest(const std::vector<double> &vec)
 
 std::vector<double> sclMult(const std::vector<double> &vec, double scl)
 {
-  std::vector<double> vvec = vec;
+  std::vector<double> vvec(vec.size());
   for(int i; i < vec.size(); i++)
-    vvec[i] *= scl;
+    vvec[i] = vec[i] * scl;
   return vvec;
 }
 std::vector<double> sclAdd(const std::vector<double> &vec, double scl)
 {
-  std::vector<double> vvec = vec;
+  std::vector<double> vvec(vec.size());
   for(int i; i < vec.size(); i++)
-    vvec[i] += scl;
+    vvec[i] = vec[i] + scl;
   return vvec;
 }
 std::vector<double> vecAdd(const std::vector<double> &vec1, const std::vector<double> &vec2)
 {
-  std::vector<double> vvec;
+  std::vector<double> vvec(vec1.size());
+  std::cout << "aaaa ";
+  printVec(vec1);
   for(int i; i < vec1.size(); i++){
-    vvec.push_back(vec1[i] + vec2[i]);
+    vvec[i] = (vec1[i] + vec2[i]);
   }
   return vvec;
 }
 std::vector<double> vecSub(const std::vector<double> &vec1, const std::vector<double> &vec2)
 {
-  std::vector<double> vvec;
+  std::vector<double> vvec(vec1.size());
   for(int i; i < vec1.size(); i++)
-    vvec.push_back(vec1[i] - vec2[i]);
-  std::cout << vvec.size() << std::endl;
+    vvec[i] = (vec1[i] - vec2[i]);
+  //vvec.push_back(vec1[i] - vec2[i]);
   return vvec;
 }
 std::vector<std::vector<double> > vecCat(const std::vector<double> &vec1,
@@ -102,9 +104,9 @@ double vecSum(const std::vector<double> &vec)
   double sum = 0;
   for(int i = 0;i < vec.size();i++){
     sum += vec[i];
-      }
+  }
   return sum;
-    }
+}
 
 void dot(std::string str)
 {
