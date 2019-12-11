@@ -62,7 +62,7 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
     //printVec(sortErr);
     return std::make_tuple(sortErr[0],sortX[0]);
   }
-  //  dot("a");
+  dot("a");
   if(n >= 800){
     std::cout << "800 steps\n";
     printMat(sortX);
@@ -76,7 +76,7 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   if(errRefl > sortErr[0] && errRefl < sortErr[1]) // reflect
     return nelMead(vecCat(sortX[0],sortX[1],refl),t,y,n);
   else if(errRefl < sortErr[0]){
-    // dot("b");
+    dot("b");
     std::vector<double> expd = vecAdd(coid,sclMult(vecSub(refl,coid),gamma));
     double errExpd = objective(t,y,expd);
     if(errExpd < errRefl) // expand
@@ -84,7 +84,7 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
     else // reflect
       return nelMead(vecCat(sortX[0],sortX[1],refl),t,y,n);
   } else if(errRefl >= sortErr[2]){ // contract
-    //    dot("c");
+    dot("c");
     std::vector<double> ctrt = vecAdd(coid, sclMult(vecSub(sortX[2],coid),rho));
     //    dot("c2");
     double errCtrt = objective(t,y,ctrt);
@@ -93,6 +93,7 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
       return nelMead(vecCat(sortX[0],sortX[1],ctrt),t,y,n);
   }
   // else { // shrink
+  dot("d");
   std::vector<double> second = vecAdd(sortX[0], sclMult(vecSub(sortX[1], sortX[0]),sigma));
   std::vector<double> third = vecAdd(sortX[0], sclMult(vecSub(sortX[2], sortX[0]),sigma));
   return nelMead(vecCat(sortX[0],second,third),t,y,n);
