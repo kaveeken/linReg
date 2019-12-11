@@ -55,6 +55,7 @@ std::vector<double> vecSub(const std::vector<double> &vec1, const std::vector<do
   std::vector<double> vvec;
   for(int i; i < vec1.size(); i++)
     vvec.push_back(vec1[i] - vec2[i]);
+  std::cout << vvec.size() << std::endl;
   return vvec;
 }
 std::vector<std::vector<double> > vecCat(const std::vector<double> &vec1,
