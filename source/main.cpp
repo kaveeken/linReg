@@ -53,13 +53,12 @@ int main()
     // rewrite to be neater
     std::vector<double> tb = topbot(y);
     std::vector<double> yNorm;
+    std::vector<double> yNL;
     for(int j = 0; j < len; ++j){
-      /* std::cout << y[j] - tb[1] << std::endl;
-      std::cout << tb[0] - tb[1] << std::endl;
-      std::cout << (y[j] - tb[1]) / (tb[0] - tb[1]) << std::endl; */
       yNorm.push_back((y[j]-tb[1]) / (tb[0] - tb[1]) + 1); // 0 is a problem but +1 feels wrong
+      yNL.push_back(std::log(yNorm[i]));
     }
-    std::tie(rmsd,fit) = linReg(t,yNorm);
+    std::tie(rmsd,fit) = linReg(lt,yNL);
     sumSlope += fit[0];
     sumCept += fit[1];
     //printVec(y);
@@ -80,7 +79,7 @@ int main()
         }
         fileStream.open(fname);
         fileStream << "# error: " << rmsd << std::endl;
-        writeXvg(fileStream,t,yNorm,line);
+        writeXvg(fileStream,lt,yNorm,line);
         fileStream.close();
       }
     }
