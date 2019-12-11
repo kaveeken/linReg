@@ -31,22 +31,24 @@ int indexLargest(const std::vector<double> &vec)
 std::vector<double> sclMult(const std::vector<double> &vec, double scl)
 {
   std::vector<double> vvec(vec.size());
-  for(int i; i < vec.size(); i++)
+  for(int i = 0; i < vec.size(); i++){
     vvec[i] = vec[i] * scl;
+  }
+  //printVec(vvec);
   return vvec;
 }
 std::vector<double> sclAdd(const std::vector<double> &vec, double scl)
 {
   std::vector<double> vvec(vec.size());
-  for(int i; i < vec.size(); i++)
+  for(int i = 0; i < vec.size(); i++)
     vvec[i] = vec[i] + scl;
   return vvec;
 }
 std::vector<double> vecAdd(const std::vector<double> &vec1, const std::vector<double> &vec2)
 {
   std::vector<double> vvec(vec1.size());
-  std::cout << "aaaa ";
-  printVec(vec1);
+  //std::cout << "aaaa ";
+  //printVec(vec1);
   for(int i; i < vec1.size(); i++){
     vvec[i] = (vec1[i] + vec2[i]);
   }

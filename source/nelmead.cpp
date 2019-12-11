@@ -54,13 +54,17 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   //printMat(sortX);
   //printVec(sortErr);
   std::vector<double> tvec1 = {1.0,2.0,3.0};
-  std::vector<double> tvec2 = {3.0,2.0,1.0};
-  std::vector<double> tadd = vecAdd(tvec1,tvec2);
-  std::vector<double> tsub = vecSub(tvec1,tvec2);
+  //std::vector<double> tvec2 = {3.0,2.0,1.0};
+  //std::vector<double> tadd = vecAdd(tvec1,tvec2);
+  //std::vector<double> tsub = vecSub(tvec1,tvec2);
+  std::vector<double> t1m5 = sclMult(tvec1,5);
   printVec(tvec1);
-  printVec(tadd);
+  //printVec(tadd);
+  std::cout << "returned";
+  printVec(t1m5);
+  printVec(sclAdd(t1m5,2));
   //printVec(tsub);
-  printVec(sortX[0]);
+  //printVec(sortX[0]);
   std::vector<double> s2 = vecAdd(sortX[0], sclMult(vecSub(sortX[1], sortX[0]),sigma));
   std::vector<double> t3 = vecAdd(sortX[0], sclMult(vecSub(sortX[2], sortX[0]),sigma));
   dot("asd");
@@ -84,7 +88,7 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
 
   dot("mult here");
   std::vector<double> coid = sclMult(vecAdd(sortX[0],sortX[1]), 0.5);
-  printVec(coid);
+  //printVec(coid);
   std::vector<double> refl = vecAdd(coid, sclMult(vecSub(coid, sortX[2]),alpha));
   double errRefl = objective(t,y,refl);
   //  dot();
