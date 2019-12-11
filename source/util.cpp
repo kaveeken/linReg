@@ -49,7 +49,7 @@ std::vector<double> vecAdd(const std::vector<double> &vec1, const std::vector<do
   std::vector<double> vvec(vec1.size());
   //std::cout << "aaaa ";
   //printVec(vec1);
-  for(int i; i < vec1.size(); i++){
+  for(int i = 0; i < vec1.size(); i++){
     vvec[i] = (vec1[i] + vec2[i]);
   }
   return vvec;
@@ -57,7 +57,7 @@ std::vector<double> vecAdd(const std::vector<double> &vec1, const std::vector<do
 std::vector<double> vecSub(const std::vector<double> &vec1, const std::vector<double> &vec2)
 {
   std::vector<double> vvec(vec1.size());
-  for(int i; i < vec1.size(); i++)
+  for(int i = 0; i < vec1.size(); i++)
     vvec[i] = (vec1[i] - vec2[i]);
   //vvec.push_back(vec1[i] - vec2[i]);
   return vvec;

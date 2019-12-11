@@ -57,12 +57,12 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   //std::vector<double> tvec2 = {3.0,2.0,1.0};
   //std::vector<double> tadd = vecAdd(tvec1,tvec2);
   //std::vector<double> tsub = vecSub(tvec1,tvec2);
-  std::vector<double> t1m5 = sclMult(tvec1,5);
-  printVec(tvec1);
+  //std::vector<double> t1m5 = sclMult(tvec1,5);
+  //printVec(tvec1);
   //printVec(tadd);
-  std::cout << "returned";
-  printVec(t1m5);
-  printVec(sclAdd(t1m5,2));
+  //std::cout << "returned";
+  //printVec(t1m5);
+  //printVec(sclAdd(t1m5,2));
   //printVec(tsub);
   //printVec(sortX[0]);
   std::vector<double> s2 = vecAdd(sortX[0], sclMult(vecSub(sortX[1], sortX[0]),sigma));

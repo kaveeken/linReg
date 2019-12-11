@@ -19,6 +19,18 @@ int main()
   std::cout << std::endl << "rmsd: " << rmsd << '\n'
             << "slope: " << fit[0] << " intercept: " << fit[1] << std::endl;
   */
+
+  std::vector<double> tvec1 = {1.0,2.0,3.0};
+  std::vector<double> tvec2 = {3.0,2.0,1.0};
+  std::vector<double> tadd = vecAdd(tvec1,tvec2);
+  std::vector<double> tsub = vecSub(tvec1,tvec2);
+  std::vector<double> t1m5 = sclMult(tvec1,5);
+  printVec(tvec1);
+  printVec(tadd);
+  printVec(t1m5);
+  printVec(sclAdd(t1m5,2));
+  printVec(tsub);
+
   std::vector<double> close = readClose();
   std::cout << close.size() << std::endl;
 
@@ -26,7 +38,7 @@ int main()
   double sumSlope = 0.0, sumCept = 0.0, rmsd = 0.0;
   std::vector<double> fit;
   double minErr = 1.0;
-  for(int i = 0; i < /*5; ++i){//*/close.size() - len; ++i){
+  for(int i = 10000000000000; i < /*5; ++i){//*/close.size() - len; ++i){
     double dI = 0.0;
     std::vector<double> t, y, lt, ly;
     //    std::vector<double> yy;
