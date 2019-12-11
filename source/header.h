@@ -28,6 +28,10 @@ std::tuple<std::vector<std::vector<double> >, std::vector<double> >
 std::vector<double> topbot(std::vector<double> &vec);
 // print a dot
 void dot(std::string str = ".");
+// print a vector of doubles
+void printVec(std::vector<double> vec);
+// print a matrix of doubles
+void printMat(std::vector<std::vector<double> > mat);
 
 /****** Nelder-Mead *****/
 // make an initial simplex from a guess

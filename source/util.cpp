@@ -122,3 +122,18 @@ std::vector<double> topbot(std::vector<double> &vec)
   std::vector<double> topbot = {top,bot};
   return topbot;
 }
+
+void printVec(std::vector<double> vec)
+{
+  for(int i = 0; i < vec.size(); ++i){
+    std::cout << vec[i] << ',';
+  }
+  std::cout << std::endl;
+}
+void printMat(std::vector<std::vector<double> > mat)
+{
+  for(int i = 0; i < mat.size(); ++i){
+    printVec(mat[i]);
+  }
+
+}

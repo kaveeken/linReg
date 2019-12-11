@@ -52,31 +52,26 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   std::tie(sortX,sortErr) = sort(X,err);
   //  dot();
 
-  if(fabs(X[0][0] - X[1][0]) < X[0][0] * 0.001 &&
-     fabs(X[0][1] - X[1][1]) < X[0][1] * 0.001 &&
-     fabs(X[0][0] - X[2][0]) < X[0][0] * 0.001 &&
-     fabs(X[0][1] - X[2][1]) < X[0][1] * 0.001){
+  if(fabs(X[0][0] * X[0][0] - X[1][0] * X[1][0]) < 0.0000000001/*X[0][0] * X[0][0]  * 0.00000001 */ &&
+     fabs(X[0][1] * X[0][1] - X[1][1] * X[1][1]) < 0.0000000001/*X[0][1] * X[0][1]  * 0.00000001 */ &&
+     fabs(X[0][0] * X[0][0] - X[2][0] * X[2][0]) < 0.0000000001/*X[0][0] * X[0][0]  * 0.00000001 */ &&
+     fabs(X[0][1] * X[0][1] - X[2][1] * X[2][1]) < 0.0000000001/*X[0][1] * X[0][1]  * 0.00000001 */){
     // now actually tests convergence
     std::cout << "nsteps: " << n << std::endl;
+    printMat(sortX);
+    std::cout << sortX[0][0] * sortX[0][0] - sortX[2][0] * sortX[2][0] << ','
+              << sortX[0][1] * sortX[0][1] - sortX[2][1] * sortX[2][1] << std::endl;
     return std::make_tuple(sortErr[0],sortX[0]);
   }
   //  dot("a");
+  if((0 - 0) < 0 * 0.001)
+    std::cout << "works" << std::endl;
   if(n == 1){
-    std::cout << sortX[0][0] << ','
-              << sortX[0][1] << ','
-              << sortX[1][0] << ','
-              << sortX[1][1] << ','
-              << sortX[2][0] << ','
-              << sortX[2][1] << std::endl;
+    printMat(sortX);
   }
   if(n >= 800){
-    std::cout << sortX[0][0] << ','
-              << sortX[0][1] << ','
-              << sortX[1][0] << ','
-              << sortX[1][1] << ','
-              << sortX[2][0] << ','
-              << sortX[2][1] << std::endl;
     std::cout << "800 steps\n";
+    printMat(sortX);
     return std::make_tuple(sortErr[0],sortX[0]);
   }
 
