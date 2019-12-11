@@ -60,7 +60,7 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   std::vector<double> tvec1 = {1.0,2.0,3.0};
   std::vector<double> tvec2 = {3.0,2.0,1.0};
   std::vector<double> tadd = vecAdd(tvec1,tvec2);
-  std::cout << tadd[0] << std::endl;
+  std::cout << tadd[0] << ',' << tadd[1] << ',' << tadd[2] << std::endl;
 
   if(fabs(X[0][0] * X[0][0] - X[1][0] * X[1][0]) < 0.0000000001/*X[0][0] * X[0][0] * 0.00000001 */ &&
      fabs(X[0][1] * X[0][1] - X[1][1] * X[1][1]) < 0.0000000001/*X[0][1] * X[0][1] * 0.00000001 */ &&
