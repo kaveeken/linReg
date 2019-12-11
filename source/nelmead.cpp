@@ -53,7 +53,7 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   //  dot();
   //printMat(sortX);
   //printVec(sortErr);
-  std::vector<double> tvec1 = {1.0,2.0,3.0};
+  //std::vector<double> tvec1 = {1.0,2.0,3.0};
   //std::vector<double> tvec2 = {3.0,2.0,1.0};
   //std::vector<double> tadd = vecAdd(tvec1,tvec2);
   //std::vector<double> tsub = vecSub(tvec1,tvec2);
@@ -67,7 +67,6 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   //printVec(sortX[0]);
   std::vector<double> s2 = vecAdd(sortX[0], sclMult(vecSub(sortX[1], sortX[0]),sigma));
   std::vector<double> t3 = vecAdd(sortX[0], sclMult(vecSub(sortX[2], sortX[0]),sigma));
-  dot("asd");
   //printMat(vecCat(sortX[0],s2,t3));
   //printMat(vecCat(sortX[0],sortX[1],sortX[2]));
 
@@ -79,14 +78,13 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
     std::cout << "nsteps: " << n << std::endl;
     return std::make_tuple(sortErr[0],sortX[0]);
   }
-  dot("a");
+  //dot("a");
   if(n >= 800){
     std::cout << "800 steps\n";
     printMat(sortX);
     return std::make_tuple(sortErr[0],sortX[0]);
   }
 
-  dot("mult here");
   std::vector<double> coid = sclMult(vecAdd(sortX[0],sortX[1]), 0.5);
   //printVec(coid);
   std::vector<double> refl = vecAdd(coid, sclMult(vecSub(coid, sortX[2]),alpha));
