@@ -26,7 +26,7 @@ int main()
   double sumSlope = 0.0, sumCept = 0.0, rmsd = 0.0;
   std::vector<double> fit;
 
-  for(int i = 0; i < 500; ++i){//close.size() - len; ++i){
+  for(int i = 0; i </* 500; ++i){//*/close.size() - len; ++i){
     double dI = 0.0;
     std::vector<double> t, y, lt, ly;
     //    std::vector<double> yy;

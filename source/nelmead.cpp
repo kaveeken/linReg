@@ -61,7 +61,21 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
     return std::make_tuple(sortErr[0],sortX[0]);
   }
   //  dot("a");
+  if(n == 1){
+    std::cout << sortX[0][0] << ','
+              << sortX[0][1] << ','
+              << sortX[1][0] << ','
+              << sortX[1][1] << ','
+              << sortX[2][0] << ','
+              << sortX[2][1] << std::endl;
+  }
   if(n >= 800){
+    std::cout << sortX[0][0] << ','
+              << sortX[0][1] << ','
+              << sortX[1][0] << ','
+              << sortX[1][1] << ','
+              << sortX[2][0] << ','
+              << sortX[2][1] << std::endl;
     std::cout << "800 steps\n";
     return std::make_tuple(sortErr[0],sortX[0]);
   }
