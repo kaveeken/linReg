@@ -44,16 +44,16 @@ std::vector<double> sclAdd(const std::vector<double> &vec, double scl)
 }
 std::vector<double> vecAdd(const std::vector<double> &vec1, const std::vector<double> &vec2)
 {
-  std::vector<double> vvec = vec1;
+  std::vector<double> vvec;
   for(int i; i < vec1.size(); i++)
-    vvec[i] += vec2[i];
+    vvec.push_back(vec1[i] + vec2[i]);
   return vvec;
 }
 std::vector<double> vecSub(const std::vector<double> &vec1, const std::vector<double> &vec2)
 {
   std::vector<double> vvec = vec1;
   for(int i; i < vec1.size(); i++)
-    vvec[i] -= vec2[i];
+    vvec.push_back(vec1[i] - vec2[i]);
   return vvec;
 }
 std::vector<std::vector<double> > vecCat(const std::vector<double> &vec1,
