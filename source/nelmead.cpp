@@ -53,14 +53,16 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   //  dot();
   printMat(sortX);
   printVec(sortErr);
+  std::vector<double> tvec1 = {1.0,2.0,3.0};
+  std::vector<double> tvec2 = {3.0,2.0,1.0};
+  std::vector<double> tadd = vecAdd(tvec1,tvec2);
+  std::vector<double> tsub = vecSub(tvec1,tvec2);
+  printVec(tadd);
+  printVec(tsub);
   std::vector<double> s2 = vecAdd(sortX[0], sclMult(vecSub(sortX[1], sortX[0]),sigma));
   std::vector<double> t3 = vecAdd(sortX[0], sclMult(vecSub(sortX[2], sortX[0]),sigma));
   printMat(vecCat(sortX[0],s2,t3));
   printMat(vecCat(sortX[0],sortX[1],sortX[2]));
-  std::vector<double> tvec1 = {1.0,2.0,3.0};
-  std::vector<double> tvec2 = {3.0,2.0,1.0};
-  std::vector<double> tadd = vecAdd(tvec1,tvec2);
-  std::cout << tadd[0] << ',' << tadd[1] << ',' << tadd[2] << std::endl;
 
   if(fabs(X[0][0] * X[0][0] - X[1][0] * X[1][0]) < 0.0000000001/*X[0][0] * X[0][0] * 0.00000001 */ &&
      fabs(X[0][1] * X[0][1] - X[1][1] * X[1][1]) < 0.0000000001/*X[0][1] * X[0][1] * 0.00000001 */ &&
