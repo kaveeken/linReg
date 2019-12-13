@@ -21,6 +21,7 @@ std::vector<std::vector<double> > vecCat(const std::vector<double> &vec1,
                                          const std::vector<double> &vec2,
                                          const std::vector<double> &vec3);
 double vecMean(const std::vector<double> &vec);
+double vecSum(const std::vector<double> &vec);
 // sort two vectors of length 3 by the elements in the err vector
 std::tuple<std::vector<std::vector<double> >, std::vector<double> >
   sort(const std::vector<std::vector<double> > &X, const std::vector<double> &err);
@@ -59,3 +60,5 @@ void writeXvg(std::ofstream &fileStream,
               const std::vector<double> &t,
               const std::vector<double> &y,
               const std::vector<double> &fit);
+void writeVec(std::ofstream &fileStream, const std::vector<double> &vec);
+std::vector<double> readVec(std::string fname);

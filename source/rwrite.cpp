@@ -46,3 +46,24 @@ void writeXvg(std::ofstream &fileStream,
     fileStream << t[i] << ' ' << y[i] << ' ' << fit[i] << std::endl;
   }
 }
+
+void writeVec(std::ofstream &fileStream, const std::vector<double> &vec)
+{
+  for(int i = 0; i < vec.size(); ++i)
+    fileStream << vec[i] << std::endl;
+}
+
+std::vector<double> readVec(std::string fname)
+{
+  std::vector<double> vec;
+  std::ifstream ifs(fname);
+  std::string str;
+  if(!ifs.is_open())
+    throw std::runtime_error("unable to open config_code.txt\n");
+  while(std::getline(ifs,str))
+    if(str.size() > 0)
+      vec.push_back(std::stod(str));
+    else
+      throw std::runtime_error("i cant read");
+  return vec;
+}
