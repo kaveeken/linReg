@@ -12,7 +12,7 @@ std::vector<double> readClose()
   std::string fname = "some_data";
   std::ifstream ifs(fname);
   if(!ifs.is_open())
-    throw std::runtime_error("unable to open config_code.txt\n");
+    throw std::runtime_error("unable to open some_data\n");
 
 	// reading
 	std::vector<double> vec;
@@ -21,7 +21,7 @@ std::vector<double> readClose()
 		if(str.size() > 0)
 			vec.push_back(std::stod(str));
     else
-			throw std::runtime_error("aaaa");
+			throw std::runtime_error("reading from file went wrong");
   return vec;
 }
 

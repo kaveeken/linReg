@@ -143,3 +143,25 @@ void printMat(std::vector<std::vector<double> > mat)
   }
 
 }
+std::vector<double> tail(std::vector<double> vec, int n)
+{
+  std::vector<double> tail;
+  for(int i = vec.size() - n; i < vec.size(); ++i)
+    tail.push_back(vec[i]);
+  return tail;
+}
+std::vector<double> normalize(std::vector<double> vec)
+{
+  std::vector<double> tb = topbot(vec);
+  std::vector<double> norm;
+  for(int i = 0; i < vec.size(); ++i)
+    norm.push_back((vec[i] - tb[1]) / (tb[0] - tb[1]) + 1);
+  return norm;
+}
+std::vector<double> vecLog(std::vector<double> vec)
+{
+  std::vector<double> logged;
+  for(int i = 0; i < vec.size(); ++i)
+    logged.push_back(std::log(vec[i]));
+  return logged;
+}

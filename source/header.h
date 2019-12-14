@@ -62,3 +62,7 @@ void writeXvg(std::ofstream &fileStream,
               const std::vector<double> &fit);
 void writeVec(std::ofstream &fileStream, const std::vector<double> &vec);
 std::vector<double> readVec(std::string fname);
+
+std::vector<double> tail(std::vector<double> vec, int n);
+std::vector<double> normalize(std::vector<double> vec);
+std::vector<double> vecLog(std::vector<double> vec);
