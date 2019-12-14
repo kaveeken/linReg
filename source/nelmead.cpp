@@ -50,25 +50,8 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   std::vector<double> sortErr;
   std::vector<std::vector<double> > sortX;
   std::tie(sortX,sortErr) = sort(X,err);
-  //  dot();
-  //printMat(sortX);
-  //printVec(sortErr);
-  //std::vector<double> tvec1 = {1.0,2.0,3.0};
-  //std::vector<double> tvec2 = {3.0,2.0,1.0};
-  //std::vector<double> tadd = vecAdd(tvec1,tvec2);
-  //std::vector<double> tsub = vecSub(tvec1,tvec2);
-  //std::vector<double> t1m5 = sclMult(tvec1,5);
-  //printVec(tvec1);
-  //printVec(tadd);
-  //std::cout << "returned";
-  //printVec(t1m5);
-  //printVec(sclAdd(t1m5,2));
-  //printVec(tsub);
-  //printVec(sortX[0]);
   std::vector<double> s2 = vecAdd(sortX[0], sclMult(vecSub(sortX[1], sortX[0]),sigma));
   std::vector<double> t3 = vecAdd(sortX[0], sclMult(vecSub(sortX[2], sortX[0]),sigma));
-  //printMat(vecCat(sortX[0],s2,t3));
-  //printMat(vecCat(sortX[0],sortX[1],sortX[2]));
 
   if(fabs(X[0][0] * X[0][0] - X[1][0] * X[1][0]) < 0.0000000001/*X[0][0] * X[0][0] * 0.00000001 */ &&
      fabs(X[0][1] * X[0][1] - X[1][1] * X[1][1]) < 0.0000000001/*X[0][1] * X[0][1] * 0.00000001 */ &&
@@ -81,7 +64,7 @@ std::tuple<double, std::vector<double> >  nelMead(const std::vector<std::vector<
   }
   //dot("a");
   if(n >= 800){
-    std::cout << "800 steps\n";
+    //std::cout << "800 steps\n";
     printMat(sortX);
     return std::make_tuple(sortErr[0],sortX[0]);
   }
