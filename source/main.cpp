@@ -18,30 +18,34 @@ int main()
   //std::cout << close.size() << std::endl;
 
   fileStream.open("results");
-  int len = 500, pos = 0;
-  double sumSlope = 0.0, sumCept = 0.0, rmsd = 0.0;
+  int len = close.size();
   double dI = 0.0;
   std::vector<double> t;
-  for(int i = 0; i < 1000; ++i){
+  for(int i = 0; i < len; ++i){
     dI += 1.0;
     t.push_back(dI);
   }
 
+  /*
   std::vector<double> nl1k = vecLog(normalize(tail(close, 1000)));
   std::vector<std::vector<double> > fits(5);
   std::vector<double> rmsds(5);
+  std::vector<double> ns = {1000, 500, 200, 100 ,50};
   std::tie(rmsds[0],fits[0]) = linReg(t,nl1k);
   std::tie(rmsds[1],fits[1]) = linReg(tail(t,500),tail(nl1k,500));
   std::tie(rmsds[2],fits[2]) = linReg(tail(t,200),tail(nl1k,200));
   std::tie(rmsds[3],fits[3]) = linReg(tail(t,100),tail(nl1k,100));
   std::tie(rmsds[4],fits[4]) = linReg(tail(t,50) ,tail(nl1k,50));
-  fileStream << "# 1000, 500, 200, 100, 50\n";
+  */
+  fileStream << "n,rmsd,slope,intercept\n";
   for(int i = 0; i < 5; ++i)
-    fileStream << "rmsd: " << rmsds[i] << ", slope: " << fits[i][0]
-               << ", intercept: " << fits[i][1] << std::endl;
+    fileStream << ns[i] << ',' << rmsds[i] << ','<< fits[i][0]
+               << ',' << fits[i][1] << std::endl;
   fileStream.close();
 
   /*
+    int pos = 0;
+    double sumSlope = 0.0, sumCept = 0.0, rmsd = 0.0;
   std::vector<double> fit;
   double minErr = 1.0;
   double maxErr = 0.0;
