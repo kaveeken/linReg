@@ -17,31 +17,48 @@ int main()
   std::vector<double> close = readClose();
   //std::cout << close.size() << std::endl;
 
-  fileStream.open("results");
   int len = close.size();
   double dI = 0.0;
   std::vector<double> t;
   for(int i = 0; i < len; ++i){
-    dI += 1.0;
     t.push_back(dI);
+    dI += 1.0;
   }
 
-  /*
-  std::vector<double> nl1k = vecLog(normalize(tail(close, 1000)));
-  std::vector<std::vector<double> > fits(5);
-  std::vector<double> rmsds(5);
-  std::vector<double> ns = {1000, 500, 200, 100 ,50};
-  std::tie(rmsds[0],fits[0]) = linReg(t,nl1k);
-  std::tie(rmsds[1],fits[1]) = linReg(tail(t,500),tail(nl1k,500));
-  std::tie(rmsds[2],fits[2]) = linReg(tail(t,200),tail(nl1k,200));
-  std::tie(rmsds[3],fits[3]) = linReg(tail(t,100),tail(nl1k,100));
-  std::tie(rmsds[4],fits[4]) = linReg(tail(t,50) ,tail(nl1k,50));
-  */
-  fileStream << "n,rmsd,slope,intercept\n";
-  for(int i = 0; i < 5; ++i)
-    fileStream << ns[i] << ',' << rmsds[i] << ','<< fits[i][0]
-               << ',' << fits[i][1] << std::endl;
+  std::vector<double> fit;
+  double rmsd = 0.0;
+  std::tie(rmsd,fit) = linReg(t,vecLog(normalize(close)));
+  fileStream.open("results");
+  fileStream << "rmsd,slope,intercept\n";
+  fileStream << rmsd << ','<< fit[0]
+             << ',' << fit[1] << std::endl;
   fileStream.close();
+  /*
+  std::cout << rmsd;
+  std::vector<double> line;
+  for(int i = 0; i < len; ++i)
+    line.push_back(fit[0] * t[i] + fit[1]);
+  fileStream.open("log.xvg");
+  writeXvg(fileStream,t,vecLog(normalize(close)),line);
+  fileStream.close();
+  std::vector<double> expline;
+  for(int k = 0; k < len; ++k)
+    expline.push_back(exp(fit[1]) * exp(fit[0] * t[k]));
+  fileStream.open("norm.xvg");
+  writeXvg(fileStream,t,normalize(close),expline);
+  fileStream.close();
+  */
+  /*
+    std::vector<double> nl1k = vecLog(normalize(tail(close, 1000)));
+    std::vector<std::vector<double> > fits(5);
+    std::vector<double> rmsds(5);
+    std::vector<double> ns = {1000, 500, 200, 100 ,50};
+    std::tie(rmsds[0],fits[0]) = linReg(t,nl1k);
+    std::tie(rmsds[1],fits[1]) = linReg(tail(t,500),tail(nl1k,500));
+    std::tie(rmsds[2],fits[2]) = linReg(tail(t,200),tail(nl1k,200));
+    std::tie(rmsds[3],fits[3]) = linReg(tail(t,100),tail(nl1k,100));
+    std::tie(rmsds[4],fits[4]) = linReg(tail(t,50) ,tail(nl1k,50));
+  */
 
   /*
     int pos = 0;
