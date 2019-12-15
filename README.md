@@ -9,3 +9,8 @@ until convergence in up to a given number of steps.
 I might want to use least squares over RMSD.
 The project that needs this validates fits by RMSD anyway,
 so this is where I ended up.
+
+# To do
+* split utils into its own repo
+* turn into library
+* turn into python-compatible library
